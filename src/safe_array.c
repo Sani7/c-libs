@@ -21,17 +21,10 @@
  */
 array_t *array_init(size_t size, size_t rows)
 {
-    array_t *arr = calloc(sizeof(array_t), 1);
+    array_t *arr = calloc(sizeof(array_t) + (size * rows), 1);
     if (!arr)
     {
         fprintf(stderr, "%s: Failed to allocate memory for array", __func__);
-        return NULL;
-    }
-    arr->data = calloc(size, rows);
-    if (!arr->data)
-    {
-        fprintf(stderr, "%s: Failed to allocate memory for data", __func__);
-        free(arr);
         return NULL;
     }
 
@@ -103,7 +96,6 @@ void array_free(array_t *arr)
     {
         fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
     }
-    free(arr->data);
     free(arr);
 }
 
@@ -117,17 +109,10 @@ void array_free(array_t *arr)
  */
 array_2d_t *array_2d_init(size_t size, size_t rows, size_t cols)
 {
-    array_2d_t *arr = calloc(sizeof(array_2d_t), 1);
+    array_2d_t *arr = calloc(sizeof(array_2d_t) + (size * rows * cols), 1);
     if (!arr)
     {
         fprintf(stderr, "%s: Failed to allocate memory for array", __func__);
-        return NULL;
-    }
-    arr->data = calloc(size, rows * cols);
-    if (!arr->data)
-    {
-        fprintf(stderr, "%s: Failed to allocate memory for data", __func__);
-        free(arr);
         return NULL;
     }
 
@@ -205,7 +190,6 @@ void array_2d_free(array_2d_t *x)
     {
         fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
     }
-    free(x->data);
     free(x);
 }
 

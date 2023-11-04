@@ -25,33 +25,33 @@
 
 typedef struct array_s
 {
-    void *data;
     size_t rows;
     size_t size;
+    uint8_t data[1];
 } array_t;
 
 typedef struct array_2d_s
 {
-    void *data;
     size_t rows;
     size_t cols;
     size_t size;
+    uint8_t data[1];
 } array_2d_t;
 
 typedef struct array_c_s
 {
-    void *real;
-    void *imaginary;
     size_t rows;
     size_t size;
+    void *real;
+    void *imaginary;
 } array_c_s_t;
 
 typedef struct array_c_p_s
 {
-    void *magnitude;
-    void *phase;
     size_t rows;
     size_t size;
+    void *magnitude;
+    void *phase;
 } array_c_p_t;
 
 // Array.c
