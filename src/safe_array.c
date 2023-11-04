@@ -14,6 +14,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 /**
  * @brief This function generates a safe array
@@ -42,16 +43,14 @@ typedef struct array_c_s
 {
     size_t rows;
     size_t size;
-    void *real;
-    void *imaginary;
+    uint8_t data[2];
 } array_c_s_t;
 
 typedef struct array_c_p_s
 {
     size_t rows;
     size_t size;
-    void *magnitude;
-    void *phase;
+    uint8_t data[2];
 } array_c_p_t;
 
 array_t *array_init(size_t size, size_t rows)
@@ -282,25 +281,10 @@ void array_2d_free(array_2d_t *x)
  */
 array_c_s_t *array_c_s_init(size_t rows, size_t size)
 {
-    array_c_s_t *x = calloc(sizeof(array_c_s_t), 1);
+    array_c_s_t *x = calloc(sizeof(array_c_s_t) + (2 * rows * size) - 2, 1);
     if (!x)
     {
         fprintf(stderr, "%s: Failed to allocate memory for array", __func__);
-        return NULL;
-    }
-    x->real = calloc(size, rows);
-    if (!x->real)
-    {
-        fprintf(stderr, "%s: Failed to allocate memory for data", __func__);
-        free(x);
-        return NULL;
-    }
-    x->imaginary = calloc(size, rows);
-    if (!x->imaginary)
-    {
-        fprintf(stderr, "%s: Failed to allocate memory for data", __func__);
-        free(x->real);
-        free(x);
         return NULL;
     }
 
@@ -341,7 +325,7 @@ void* array_c_get_imag(array_c_s_t *x, size_t row)
         return NULL;
     }
 
-    return (char *)x->imaginary + (row * x->size);
+    return (char *)x->data + (row * x->size);
 }
 
 /**
@@ -359,7 +343,7 @@ void* array_c_get_real(array_c_s_t *x, size_t row)
         return NULL;
     }
 
-    return (char *)x->real + (row * x->size);
+    return (char *)x->data + ((row + x->rows) * x->size);
 }
 
 /**
@@ -378,8 +362,8 @@ int array_c_s_set(array_c_s_t *x, size_t row, void *real, void *imaginary)
         return -1;
     }
 
-    memcpy((char *)x->real + (row * x->size), real, x->size);
-    memcpy((char *)x->imaginary + (row * x->size), imaginary, x->size);
+    memcpy((char *)x->data + ((row + x->rows) * x->size), real, x->size);
+    memcpy((char *)x->data + (row * x->size), imaginary, x->size);
     return 0;
 }
 
@@ -394,8 +378,7 @@ void array_c_s_free(array_c_s_t *x)
     {
         fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
     }
-    free(x->real);
-    free(x->imaginary);
+
     free(x);
 }
 
@@ -409,25 +392,10 @@ void array_c_s_free(array_c_s_t *x)
  */
 array_c_p_t *array_c_p_init(size_t rows, size_t size)
 {
-    array_c_p_t* x = calloc(sizeof(array_c_p_t), 1);
+    array_c_p_t* x = calloc(sizeof(array_c_p_t) + (2 * rows * size) - 2, 1);
     if (!x)
     {
         fprintf(stderr, "%s: Failed to allocate memory for array", __func__);
-        return NULL;
-    }
-    x->magnitude = (double *)calloc(rows, sizeof(double));
-    if (!x->magnitude)
-    {
-        fprintf(stderr, "%s: Failed to allocate memory for data", __func__);
-        free(x);
-        return NULL;
-    }
-    x->phase = (double *)calloc(rows, sizeof(double));
-    if (!x->phase)
-    {
-        fprintf(stderr, "%s: Failed to allocate memory for data", __func__);
-        free(x->magnitude);
-        free(x);
         return NULL;
     }
     x->size = size;
@@ -461,7 +429,7 @@ void* array_c_get_mag(array_c_p_t *x, size_t row)
         return 0;
     }
 
-    return (char *)x->magnitude + (row * x->size);
+    return (char *)x->data + (row * x->size);
 }
 
 void* array_c_get_phase(array_c_p_t *x, size_t row)
@@ -472,7 +440,7 @@ void* array_c_get_phase(array_c_p_t *x, size_t row)
         return 0;
     }
 
-    return (char *)x->phase + (row * x->size);
+    return (char *)x->data + ((row + x->rows) * x->size);
 }
 
 /**
@@ -491,8 +459,8 @@ int array_c_p_set(array_c_p_t *x, size_t row, void* magnitude, void* phase)
         return -1;
     }
 
-    memcpy((char *)x->magnitude + (row * x->size), magnitude, x->size);
-    memcpy((char *)x->phase + (row * x->size), phase, x->size);
+    memcpy((char *)x->data + (row * x->size), magnitude, x->size);
+    memcpy((char *)x->data + ((row + x->rows) * x->size), phase, x->size);
     return 0;
 }
 
@@ -503,9 +471,10 @@ int array_c_p_set(array_c_p_t *x, size_t row, void* magnitude, void* phase)
  */
 void array_c_p_free(array_c_p_t *x)
 {
-    free(x->magnitude);
-    free(x->phase);
-    x->magnitude = NULL;
-    x->phase = NULL;
-    x->rows = 0;
+    if (!x)
+    {
+        fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
+    }
+    
+    free(x);
 }
