@@ -23,10 +23,35 @@
 #define ARRAY_C_GET_MAG(arr, row, type) (*(type *)array_c_get_mag(arr, row))
 #define ARRAY_C_GET_PHASE(arr, row, type) (*(type *)array_c_get_phase(arr, row))
 
-typedef void array_t;
-typedef void array_2d_t;
-typedef void array_c_s_t;
-typedef void array_c_p_t;
+
+typedef struct array_s
+{
+    size_t rows;
+    size_t size;
+    uint8_t data[1];
+} array_t;
+
+typedef struct array_2d_s
+{
+    size_t rows;
+    size_t cols;
+    size_t size;
+    uint8_t data[1];
+} array_2d_t;
+
+typedef struct array_c_s
+{
+    size_t rows;
+    size_t size;
+    uint8_t data[1];
+} array_c_s_t;
+
+typedef struct array_c_p_s
+{
+    size_t rows;
+    size_t size;
+    uint8_t data[1];
+} array_c_p_t;
 
 // Array.c
 array_t *array_init(size_t size, size_t rows);

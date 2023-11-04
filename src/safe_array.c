@@ -10,11 +10,7 @@
  *
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-//#include "safe_array.h"
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include "safe_array.h"
 
 /**
  * @brief This function generates a safe array
@@ -23,35 +19,6 @@
  * @param rows The number of rows in the array
  * @return array_t* The pointer to the safe array struct
  */
-
-typedef struct array_s
-{
-    size_t rows;
-    size_t size;
-    uint8_t data[1];
-} array_t;
-
-typedef struct array_2d_s
-{
-    size_t rows;
-    size_t cols;
-    size_t size;
-    uint8_t data[1];
-} array_2d_t;
-
-typedef struct array_c_s
-{
-    size_t rows;
-    size_t size;
-    uint8_t data[2];
-} array_c_s_t;
-
-typedef struct array_c_p_s
-{
-    size_t rows;
-    size_t size;
-    uint8_t data[2];
-} array_c_p_t;
 
 array_t *array_init(size_t size, size_t rows)
 {
@@ -281,7 +248,7 @@ void array_2d_free(array_2d_t *x)
  */
 array_c_s_t *array_c_s_init(size_t rows, size_t size)
 {
-    array_c_s_t *x = calloc(sizeof(array_c_s_t) + (2 * rows * size) - 2, 1);
+    array_c_s_t *x = calloc(sizeof(array_c_s_t) + (2 * rows * size) - 1, 1);
     if (!x)
     {
         fprintf(stderr, "%s: Failed to allocate memory for array", __func__);
@@ -392,7 +359,7 @@ void array_c_s_free(array_c_s_t *x)
  */
 array_c_p_t *array_c_p_init(size_t rows, size_t size)
 {
-    array_c_p_t* x = calloc(sizeof(array_c_p_t) + (2 * rows * size) - 2, 1);
+    array_c_p_t* x = calloc(sizeof(array_c_p_t) + (2 * rows * size) - 1, 1);
     if (!x)
     {
         fprintf(stderr, "%s: Failed to allocate memory for array", __func__);
