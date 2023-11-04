@@ -292,7 +292,7 @@ void* array_c_get_imag(array_c_s_t *x, size_t row)
         return NULL;
     }
 
-    return (char *)x->data + (row * x->size);
+    return (char *)x->data + (2 * row * x->size);
 }
 
 /**
@@ -310,7 +310,7 @@ void* array_c_get_real(array_c_s_t *x, size_t row)
         return NULL;
     }
 
-    return (char *)x->data + ((row + x->rows) * x->size);
+    return (char *)x->data + ((2 * row + 1) * x->size);
 }
 
 /**
@@ -329,8 +329,8 @@ int array_c_s_set(array_c_s_t *x, size_t row, void *real, void *imaginary)
         return -1;
     }
 
-    memcpy((char *)x->data + ((row + x->rows) * x->size), real, x->size);
-    memcpy((char *)x->data + (row * x->size), imaginary, x->size);
+    memcpy((char *)x->data + ((2 * row + 1) * x->size), real, x->size);
+    memcpy((char *)x->data + ( 2 * row * x->size), imaginary, x->size);
     return 0;
 }
 
@@ -396,7 +396,7 @@ void* array_c_get_mag(array_c_p_t *x, size_t row)
         return 0;
     }
 
-    return (char *)x->data + (row * x->size);
+    return (char *)x->data + (2 * row * x->size);
 }
 
 void* array_c_get_phase(array_c_p_t *x, size_t row)
@@ -407,7 +407,7 @@ void* array_c_get_phase(array_c_p_t *x, size_t row)
         return 0;
     }
 
-    return (char *)x->data + ((row + x->rows) * x->size);
+    return (char *)x->data + ((2 * row + 1) * x->size);
 }
 
 /**
@@ -426,8 +426,8 @@ int array_c_p_set(array_c_p_t *x, size_t row, void* magnitude, void* phase)
         return -1;
     }
 
-    memcpy((char *)x->data + (row * x->size), magnitude, x->size);
-    memcpy((char *)x->data + ((row + x->rows) * x->size), phase, x->size);
+    memcpy((char *)x->data + (2 * row * x->size), magnitude, x->size);
+    memcpy((char *)x->data + ((2 * row + 1) * x->size), phase, x->size);
     return 0;
 }
 
