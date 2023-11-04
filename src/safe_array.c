@@ -109,7 +109,7 @@ void array_free(array_t *arr)
  */
 array_2d_t *array_2d_init(size_t size, size_t rows, size_t cols)
 {
-    array_2d_t *arr = calloc(sizeof(array_2d_t), 1);
+    array_2d_t *arr = calloc(sizeof(array_2d_t) + (size * rows * cols  - 1), 1);
     if (!arr)
     {
         fprintf(stderr, "%s: Failed to allocate memory for array", __func__);
