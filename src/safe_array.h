@@ -23,55 +23,34 @@
 #define ARRAY_C_GET_MAG(arr, row, type) (*(type *)array_c_get_mag(arr, row))
 #define ARRAY_C_GET_PHASE(arr, row, type) (*(type *)array_c_get_phase(arr, row))
 
-typedef struct array_s
-{
-    size_t rows;
-    size_t size;
-    uint8_t data[1];
-} array_t;
-
-typedef struct array_2d_s
-{
-    size_t rows;
-    size_t cols;
-    size_t size;
-    uint8_t data[1];
-} array_2d_t;
-
-typedef struct array_c_s
-{
-    size_t rows;
-    size_t size;
-    void *real;
-    void *imaginary;
-} array_c_s_t;
-
-typedef struct array_c_p_s
-{
-    size_t rows;
-    size_t size;
-    void *magnitude;
-    void *phase;
-} array_c_p_t;
+typedef void array_t;
+typedef void array_2d_t;
+typedef void array_c_s_t;
+typedef void array_c_p_t;
 
 // Array.c
 array_t *array_init(size_t size, size_t rows);
+size_t array_get_rows(array_t *arr);
 void *array_get(array_t *arr, size_t index);
 int array_set(array_t *arr, size_t index, void *element);
 void array_free(array_t *arr);
 
 array_2d_t *array_2d_init(size_t size, size_t rows, size_t cols);
+size_t array_2d_get_rows(array_2d_t *x);
+size_t array_2d_get_cols(array_2d_t *x);
 void *array_2d_get(array_2d_t *x, size_t row, size_t col);
 int array_2d_set(array_2d_t *x, size_t row, size_t col, void *val);
 void array_2d_free(array_2d_t *x);
 
 array_c_s_t *array_c_s_init(size_t rows, size_t size);
+size_t array_c_s_get_rows(array_c_s_t *x);
 void* array_c_get_real(array_c_s_t *x, size_t row);
 void* array_c_get_imag(array_c_s_t *x, size_t row);
 int array_c_s_set(array_c_s_t *x, size_t row, void *real, void *imaginary);
 void array_c_s_free(array_c_s_t *x);
 
 array_c_p_t *array_c_p_init(size_t rows, size_t size);
+size_t array_c_p_get_rows(array_c_p_t *x);
 void *array_c_get_mag(array_c_p_t *x, size_t row);
 void *array_c_get_phase(array_c_p_t *x, size_t row);
 int array_c_p_set(array_c_p_t *x, size_t row, void* magnitude, void* phase);

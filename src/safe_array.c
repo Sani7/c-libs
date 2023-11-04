@@ -10,7 +10,10 @@
  *
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "safe_array.h"
+//#include "safe_array.h"
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief This function generates a safe array
@@ -19,6 +22,38 @@
  * @param rows The number of rows in the array
  * @return array_t* The pointer to the safe array struct
  */
+
+typedef struct array_s
+{
+    size_t rows;
+    size_t size;
+    uint8_t data[1];
+} array_t;
+
+typedef struct array_2d_s
+{
+    size_t rows;
+    size_t cols;
+    size_t size;
+    uint8_t data[1];
+} array_2d_t;
+
+typedef struct array_c_s
+{
+    size_t rows;
+    size_t size;
+    void *real;
+    void *imaginary;
+} array_c_s_t;
+
+typedef struct array_c_p_s
+{
+    size_t rows;
+    size_t size;
+    void *magnitude;
+    void *phase;
+} array_c_p_t;
+
 array_t *array_init(size_t size, size_t rows)
 {
     array_t *arr = calloc(sizeof(array_t) + (size * rows - 1), 1);
@@ -55,6 +90,17 @@ void *array_get(array_t *arr, size_t index)
     }
 
     return (char *)arr->data + (index * arr->size);
+}
+
+size_t array_get_rows(array_t *arr)
+{
+    if (!arr)
+    {
+        fprintf(stderr, "%s: Invalid argument\n", __func__);
+        return 0;
+    }
+
+    return arr->rows;
 }
 
 /**
@@ -120,6 +166,40 @@ array_2d_t *array_2d_init(size_t size, size_t rows, size_t cols)
     arr->cols = cols;
     arr->size = size;
     return arr;
+}
+
+/**
+ * @brief This function gets the number of rows in the 2D safe array
+ *
+ * @param x The pointer to the 2D array struct
+ * @return size_t The number of rows
+ */
+size_t array_2d_get_rows(array_2d_t *x)
+{
+    if (!x)
+    {
+        fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
+        return 0;
+    }
+
+    return x->rows;
+}
+
+/**
+ * @brief This function gets the number of columns in the 2D safe array
+ *
+ * @param x The pointer to the 2D array struct
+ * @return size_t The number of columns
+ */
+size_t array_2d_get_cols(array_2d_t *x)
+{
+    if (!x)
+    {
+        fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
+        return 0;
+    }
+
+    return x->cols;
 }
 
 /**
@@ -230,6 +310,23 @@ array_c_s_t *array_c_s_init(size_t rows, size_t size)
 }
 
 /**
+ * @brief This function gets the number of rows in the complex safe array
+ *
+ * @param x The pointer to the complex array struct
+ * @return size_t The number of rows
+ */
+size_t array_c_s_get_rows(array_c_s_t *x)
+{
+    if (!x)
+    {
+        fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
+        return 0;
+    }
+
+    return x->rows;
+}
+
+/**
  * @brief This function gets an imaginary element from the complex safe array
  * 
  * @param x The pointer to the complex array struct
@@ -337,6 +434,23 @@ array_c_p_t *array_c_p_init(size_t rows, size_t size)
     x->rows = rows;
 
     return x;
+}
+
+/**
+ * @brief This function gets the number of rows in the complex safe array
+ *
+ * @param x The pointer to the complex array struct
+ * @return size_t The number of rows
+ */
+size_t array_c_p_get_rows(array_c_p_t *x)
+{
+    if (!x)
+    {
+        fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
+        return 0;
+    }
+
+    return x->rows;
 }
 
 void* array_c_get_mag(array_c_p_t *x, size_t row)

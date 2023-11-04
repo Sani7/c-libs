@@ -3,7 +3,7 @@
 TEST(array, array_init)
 {
     array_t* x = array_init(sizeof(double), 2);
-    EXPECT_EQ(x->rows, 2);
+    EXPECT_EQ(array_get_rows(x), 2);
     EXPECT_EQ(ARRAY_GET(x, 0, double), 0);
     EXPECT_EQ(ARRAY_GET(x, 0, double), 0);
     array_free(x);
@@ -37,8 +37,8 @@ TEST(array, Get_Set_array)
 TEST(array, array_2d_init)
 {
     array_2d_t* x = array_2d_init(sizeof(double), 2, 2);
-    EXPECT_EQ(x->rows, 2);
-    EXPECT_EQ(x->cols, 2);
+    EXPECT_EQ(array_2d_get_rows(x), 2);
+    EXPECT_EQ(array_2d_get_cols(x), 2);
     EXPECT_EQ(ARRAY_2D_GET(x, 0, 0, double), 0);
     EXPECT_EQ(ARRAY_2D_GET(x, 0, 0, double), 0);
     EXPECT_EQ(ARRAY_2D_GET(x, 0, 0, double), 0);
@@ -90,7 +90,7 @@ TEST(array, Set_Get_array_2d)
 TEST(array, array_c_s_init)
 {
     array_c_s_t* x = array_c_s_init(2, sizeof(double));
-    EXPECT_EQ(x->rows, 2);
+    EXPECT_EQ(array_c_s_get_rows(x), 2);
     EXPECT_EQ(ARRAY_C_GET_REAL(x, 0, double), 0);
     EXPECT_EQ(ARRAY_C_GET_REAL(x, 1, double), 0);
     EXPECT_EQ(ARRAY_C_GET_IMAG(x, 0, double), 0);
@@ -134,7 +134,7 @@ TEST(array, Set_Get_array_C_S)
 TEST(array, array_c_p_init)
 {
     array_c_p_t* x = array_c_p_init(2, sizeof(double));
-    EXPECT_EQ(x->rows, 2);
+    EXPECT_EQ(array_c_p_get_rows(x), 2);
     EXPECT_EQ(ARRAY_C_GET_MAG(x, 0, double), 0);
     EXPECT_EQ(ARRAY_C_GET_MAG(x, 1, double), 0);
     EXPECT_EQ(ARRAY_C_GET_PHASE(x, 0, double), 0);
