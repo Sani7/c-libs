@@ -28,6 +28,7 @@ typedef struct array_s
 {
     size_t rows;
     size_t size;
+    void* ptr;
     uint8_t data[1];
 } array_t;
 
@@ -36,6 +37,7 @@ typedef struct array_2d_s
     size_t rows;
     size_t cols;
     size_t size;
+    void* ptr;
     uint8_t data[1];
 } array_2d_t;
 
@@ -43,6 +45,7 @@ typedef struct array_c_s
 {
     size_t rows;
     size_t size;
+    void* ptr;
     uint8_t data[1];
 } array_c_s_t;
 
@@ -50,6 +53,7 @@ typedef struct array_c_p_s
 {
     size_t rows;
     size_t size;
+    void* ptr;
     uint8_t data[1];
 } array_c_p_t;
 

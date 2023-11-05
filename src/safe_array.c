@@ -31,7 +31,19 @@ array_t *array_init(size_t size, size_t rows)
 
     arr->rows = rows;
     arr->size = size;
+    arr->ptr = arr->data;
     return arr;
+}
+
+size_t array_get_rows(array_t *arr)
+{
+    if (!arr)
+    {
+        fprintf(stderr, "%s: Invalid argument\n", __func__);
+        return 0;
+    }
+
+    return arr->rows;
 }
 
 /**
@@ -55,18 +67,7 @@ void *array_get(array_t *arr, size_t index)
         return NULL;
     }
 
-    return (char *)arr->data + (index * arr->size);
-}
-
-size_t array_get_rows(array_t *arr)
-{
-    if (!arr)
-    {
-        fprintf(stderr, "%s: Invalid argument\n", __func__);
-        return 0;
-    }
-
-    return arr->rows;
+    return (char *)arr->ptr + (index * arr->size);
 }
 
 /**
@@ -91,7 +92,7 @@ int array_set(array_t *arr, size_t index, void *element)
         return -1;
     }
 
-    void *dest = (char *)arr->data + (index * arr->size);
+    void *dest = (char *)arr->ptr + (index * arr->size);
     memcpy(dest, element, arr->size);
 
     return 0;
@@ -131,6 +132,7 @@ array_2d_t *array_2d_init(size_t size, size_t rows, size_t cols)
     arr->rows = rows;
     arr->cols = cols;
     arr->size = size;
+    arr->ptr = arr->data;
     return arr;
 }
 
@@ -189,7 +191,7 @@ void *array_2d_get(array_2d_t *x, size_t row, size_t col)
         return 0;
     }
 
-    return (char *)x->data + (row * x->size) + (col * x->cols * x->size);
+    return (char *)x->ptr + (row * x->size) + (col * x->cols * x->size);
 }
 
 /**
@@ -219,7 +221,7 @@ int array_2d_set(array_2d_t *x, size_t row, size_t col, void *val)
         return -1;
     }
 
-    void *dest = (char *)x->data + (row * x->size) + (col * x->cols * x->size);
+    void *dest = (char *)x->ptr + (row * x->size) + (col * x->cols * x->size);
     memcpy(dest, val, x->size);
 
     return 0;
@@ -257,6 +259,7 @@ array_c_s_t *array_c_s_init(size_t rows, size_t size)
 
     x->rows = rows;
     x->size = size;
+    x->ptr = x->data;
     return x;
 }
 
@@ -292,7 +295,7 @@ void* array_c_get_imag(array_c_s_t *x, size_t row)
         return NULL;
     }
 
-    return (char *)x->data + (2 * row * x->size);
+    return (char *)x->ptr + (2 * row * x->size);
 }
 
 /**
@@ -310,7 +313,7 @@ void* array_c_get_real(array_c_s_t *x, size_t row)
         return NULL;
     }
 
-    return (char *)x->data + ((2 * row + 1) * x->size);
+    return (char *)x->ptr + ((2 * row + 1) * x->size);
 }
 
 /**
@@ -329,8 +332,8 @@ int array_c_s_set(array_c_s_t *x, size_t row, void *real, void *imaginary)
         return -1;
     }
 
-    memcpy((char *)x->data + ((2 * row + 1) * x->size), real, x->size);
-    memcpy((char *)x->data + ( 2 * row * x->size), imaginary, x->size);
+    memcpy((char *)x->ptr + ((2 * row + 1) * x->size), real, x->size);
+    memcpy((char *)x->ptr + ( 2 * row * x->size), imaginary, x->size);
     return 0;
 }
 
@@ -367,6 +370,7 @@ array_c_p_t *array_c_p_init(size_t rows, size_t size)
     }
     x->size = size;
     x->rows = rows;
+    x->ptr = x->data;
 
     return x;
 }
@@ -396,7 +400,7 @@ void* array_c_get_mag(array_c_p_t *x, size_t row)
         return 0;
     }
 
-    return (char *)x->data + (2 * row * x->size);
+    return (char *)x->ptr + (2 * row * x->size);
 }
 
 void* array_c_get_phase(array_c_p_t *x, size_t row)
@@ -407,7 +411,7 @@ void* array_c_get_phase(array_c_p_t *x, size_t row)
         return 0;
     }
 
-    return (char *)x->data + ((2 * row + 1) * x->size);
+    return (char *)x->ptr + ((2 * row + 1) * x->size);
 }
 
 /**
@@ -426,8 +430,8 @@ int array_c_p_set(array_c_p_t *x, size_t row, void* magnitude, void* phase)
         return -1;
     }
 
-    memcpy((char *)x->data + (2 * row * x->size), magnitude, x->size);
-    memcpy((char *)x->data + ((2 * row + 1) * x->size), phase, x->size);
+    memcpy((char *)x->ptr + (2 * row * x->size), magnitude, x->size);
+    memcpy((char *)x->ptr + ((2 * row + 1) * x->size), phase, x->size);
     return 0;
 }
 
