@@ -34,6 +34,19 @@ TEST(array, Get_Set_array)
     array_free(x);
 }
 
+TEST(array, array_set_with_get)
+{
+    array_t* x  = array_init(sizeof(double), 2);
+
+    ARRAY_GET(x, 0, double) = 1;
+    ARRAY_GET(x, 1, double) = 2;
+
+    EXPECT_EQ(ARRAY_GET(x, 0, double), 1);
+    EXPECT_EQ(ARRAY_GET(x, 1, double), 2);
+
+    array_free(x);
+}
+
 TEST(array, array_2d_init)
 {
     array_2d_t* x = array_2d_init(sizeof(double), 2, 2);
@@ -83,6 +96,23 @@ TEST(array, Set_Get_array_2d)
     array_2d_get(x, 0, 2);
     output = testing::internal::GetCapturedStderr();
     EXPECT_EQ(output, "array_2d_get: col index out of bounds: 2 > 2\n");
+
+    array_2d_free(x);
+}
+
+TEST(array, array_2d_set_with_get)
+{
+    array_2d_t* x = array_2d_init(sizeof(double), 2, 2);
+
+    ARRAY_2D_GET(x, 0, 0, double) = 1;
+    ARRAY_2D_GET(x, 0, 1, double) = 2;
+    ARRAY_2D_GET(x, 1, 0, double) = 3;
+    ARRAY_2D_GET(x, 1, 1, double) = 4;
+
+    EXPECT_EQ(ARRAY_2D_GET(x, 0, 0, double), 1);
+    EXPECT_EQ(ARRAY_2D_GET(x, 0, 1, double), 2);
+    EXPECT_EQ(ARRAY_2D_GET(x, 1, 0, double), 3);
+    EXPECT_EQ(ARRAY_2D_GET(x, 1, 1, double), 4);
 
     array_2d_free(x);
 }
