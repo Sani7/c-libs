@@ -36,17 +36,107 @@ typedef struct array_2d_s
     uint8_t data[1];
 } array_2d_t;
 
-// Array.c
+/**
+ * @brief This function generates a safe array
+ * 
+ * @param size The element size (sizeof(type))
+ * @param rows The number of rows in the array
+ * @return array_t* The pointer to the safe array struct
+ */
 array_t *array_init(size_t size, size_t rows);
+
+/**
+ * @brief This function creates a new array that uses the original array
+ * 
+ * @param initial The pointer to the original safe array struct
+ * @param move The amount of rows to move
+ * @return array_t The new safe array struct that uses the original array
+ */
 array_t array_move(array_t* initial, size_t move);
+
+/**
+ * @brief This function gets the number of rows in the safe array
+ * 
+ * @param arr The pointer to the safe array struct
+ * @return size_t The number of rows
+ */
 size_t array_get_rows(array_t *arr);
+
+/**
+ * @brief This function gets an element from the safe array
+ * 
+ * @param arr The pointer to the safe array struct
+ * @param index The row index of the element to get
+ * @return void* The ptr to the element
+ */
 void *array_get(array_t *arr, size_t index);
+
+/**
+ * @brief This function sets an element in the safe array
+ * 
+ * @param arr The pointer to the safe array struct
+ * @param index The row index of the element to set
+ * @param element The ptr to the value to set
+ * @return int 0 on success, -1 on failure
+ */
 int array_set(array_t *arr, size_t index, void *element);
+
+/**
+ * @brief This function frees the safe array, sets the pointer to NULL and the number of rows to 0
+ * 
+ * @param arr The pointer to the safe array struct
+ */
 void array_free(array_t *arr);
 
+/**
+ * @brief This function generates a 2D safe array
+ * 
+ * @param size The element size (sizeof(type))
+ * @param rows The number of rows in the array
+ * @param cols The number of columns in the array
+ * @return Array_2D_t* The pointer to the 2D array struct
+ */
 array_2d_t *array_2d_init(size_t size, size_t rows, size_t cols);
+
+/**
+ * @brief This function gets the number of rows in the 2D safe array
+ *
+ * @param x The pointer to the 2D array struct
+ * @return size_t The number of rows
+ */
 size_t array_2d_get_rows(array_2d_t *x);
+
+/**
+ * @brief This function gets the number of columns in the 2D safe array
+ *
+ * @param x The pointer to the 2D array struct
+ * @return size_t The number of columns
+ */
 size_t array_2d_get_cols(array_2d_t *x);
+
+/**
+ * @brief This function gets an element from the 2D safe array
+ *
+ * @param x The pointer to the 2D array struct
+ * @param row The row index of the element to get
+ * @param col The column index of the element to get
+ * @return void* The ptr to the element
+ */
 void *array_2d_get(array_2d_t *x, size_t row, size_t col);
+
+/**
+ * @brief This function sets an element in the 2D safe array
+ *
+ * @param x The pointer to the 2D array struct
+ * @param row The row index of the element to set
+ * @param col The column index of the element to set
+ * @param val The ptr to the value to set
+ */
 int array_2d_set(array_2d_t *x, size_t row, size_t col, void *val);
+
+/**
+ * @brief This function frees the 2D safe array, sets the pointer to NULL and the number of rows and columns to 0
+ *
+ * @param x The pointer to the 2D array struct
+ */
 void array_2d_free(array_2d_t *x);
