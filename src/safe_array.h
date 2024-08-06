@@ -38,6 +38,7 @@ typedef struct array_2d_s
 
 // Array.c
 array_t *array_init(size_t size, size_t rows);
+array_t array_move(array_t* initial, size_t move);
 size_t array_get_rows(array_t *arr);
 void *array_get(array_t *arr, size_t index);
 int array_set(array_t *arr, size_t index, void *element);

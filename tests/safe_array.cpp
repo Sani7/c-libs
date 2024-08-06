@@ -9,6 +9,36 @@ TEST(array, array_init)
     array_free(x);
 }
 
+TEST(array, array_move)
+{
+    array_t* x = array_init(sizeof(double), 10);
+    ARRAY_GET(x, 0, double) = 1;
+    ARRAY_GET(x, 1, double) = 2;
+    ARRAY_GET(x, 2, double) = 3;
+    ARRAY_GET(x, 3, double) = 4;
+    ARRAY_GET(x, 4, double) = 5;
+    ARRAY_GET(x, 5, double) = 6;
+    ARRAY_GET(x, 6, double) = 7;
+    ARRAY_GET(x, 7, double) = 8;
+    ARRAY_GET(x, 8, double) = 9;
+    ARRAY_GET(x, 9, double) = 10;
+
+    array_t y = array_move(x, 1);
+    EXPECT_EQ(array_get_rows(&y), 9);
+
+    EXPECT_EQ(ARRAY_GET(&y, 0, double), 2);
+    EXPECT_EQ(ARRAY_GET(&y, 1, double), 3);
+    EXPECT_EQ(ARRAY_GET(&y, 2, double), 4);
+    EXPECT_EQ(ARRAY_GET(&y, 3, double), 5);
+    EXPECT_EQ(ARRAY_GET(&y, 4, double), 6);
+    EXPECT_EQ(ARRAY_GET(&y, 5, double), 7);
+    EXPECT_EQ(ARRAY_GET(&y, 6, double), 8);
+    EXPECT_EQ(ARRAY_GET(&y, 7, double), 9);
+    EXPECT_EQ(ARRAY_GET(&y, 8, double), 10);
+    
+    array_free(x);
+}
+
 TEST(array, Get_Set_array)
 {
     array_t* x  = array_init(sizeof(double), 2);

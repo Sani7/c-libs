@@ -35,6 +35,34 @@ array_t *array_init(size_t size, size_t rows)
     return arr;
 }
 
+/**
+ * @brief This function creates a new array that uses the original array
+ * 
+ * @param initial The pointer to the original safe array struct
+ * @param move The amount of rows to move
+ * @return array_t The new safe array struct that uses the original array
+ */
+array_t array_move(array_t* initial, size_t move)
+{
+    if (initial->size <= move)
+    {
+        fprintf(stderr, "%s: initial->size <= move", __func__);
+        return (array_t){.rows = 0, .ptr = 0, .size = 0};
+    }
+
+    return (array_t) {
+        .size = initial->size,
+        .rows = initial->rows - move,
+        .ptr = initial->ptr + (move * initial->size)
+    };
+}
+
+/**
+ * @brief This function gets the number of rows in the safe array
+ * 
+ * @param arr The pointer to the safe array struct
+ * @return size_t The number of rows
+ */
 size_t array_get_rows(array_t *arr)
 {
     if (!arr)
