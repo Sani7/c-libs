@@ -42,6 +42,25 @@ array_t array_move(array_t* initial, size_t move)
     };
 }
 
+array_t *array_realloc(array_t* arr, size_t rows)
+{
+    if (!arr)
+    {
+        fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
+        return NULL;
+    }
+
+    array_t *new_arr = realloc(arr, sizeof(array_t) + (arr->size * rows - 1));
+    if (!new_arr)
+    {
+        fprintf(stderr, "%s: Failed to reallocate memory for array", __func__);
+        return NULL;
+    }
+
+    new_arr->rows = rows;
+    return new_arr;
+}
+
 size_t array_get_rows(array_t *arr)
 {
     if (!arr)

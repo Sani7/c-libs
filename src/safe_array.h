@@ -55,6 +55,14 @@ array_t *array_init(size_t size, size_t rows);
 array_t array_move(array_t* initial, size_t move);
 
 /**
+ * @brief This function reallocates the safe array
+ * 
+ * @param arr The pointer to the safe array struct
+ * @param rows The number of rows to reallocate
+ */
+array_t *array_realloc(array_t* arr, size_t rows);
+
+/**
  * @brief This function gets the number of rows in the safe array
  * 
  * @param arr The pointer to the safe array struct
