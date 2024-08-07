@@ -49,7 +49,16 @@ array_t *array_realloc(array_t* arr, size_t rows)
         fprintf(stderr, "%s: ptr dereferences to NULL\n", __func__);
         return NULL;
     }
-
+    if (arr->rows > rows)
+    {
+        fprintf(stderr, "%s: arr->rows (%d) > rows (%d)\n", __func__, arr->rows, rows);
+        return NULL;
+    }
+    if (arr->rows == rows)
+    {
+        return arr;
+    }
+    
     array_t *new_arr = realloc(arr, sizeof(array_t) + (arr->size * rows - 1));
     if (!new_arr)
     {
